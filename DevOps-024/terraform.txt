@@ -1,0 +1,15 @@
+Terraform Installation on GitHub Codespaces
+Step-by-Step Guide
+1. Create a GitHub repository.
+2. Open Code ® Codespaces ® Create codespace on main.
+3. Open the terminal.
+4. Run: sudo apt update
+5. Run: sudo apt install -y wget unzip
+6. Download Terraform:
+wget
+https://releases.hashicorp.com/terraform/1.16.1/terraform_1.16.1_linux_amd64.zip
+7. Extract: unzip terraform_1.16.1_linux_amd64.zip
+8. Move binary: sudo mv terraform /usr/local/bin/
+9. Verify: terraform version
+Deliverable
+Capture Terraform version, Operating System (Linux Codespace), and Installation Status.

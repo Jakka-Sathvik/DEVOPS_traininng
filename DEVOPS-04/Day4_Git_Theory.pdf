@@ -1,0 +1,280 @@
+GIT THEORY
+
+DevOps Training Program
+
+Prepared By: Sathvik Jakka
+Topic: Version Control Concepts and Git Fundamentals
+Duration: 45 Minutes
+
+Introduction
+
+In modern software development, multiple developers work together on the same application. Without a proper system to manage code changes, developers may overwrite each other's work, lose important code, or struggle to track modifications.
+
+Version Control Systems (VCS) were created to solve these problems. Git is the most popular Version Control System used today and has become an essential tool in DevOps, Software Development, Cloud Engineering, and Site Reliability Engineering (SRE).
+
+Git helps developers track code changes, collaborate efficiently, maintain code history, and safely manage software releases.
+
+What is Version Control?
+
+Version Control is a system that records changes made to files over time so that previous versions can be recalled whenever needed.
+
+Think of Version Control as a "save history" for software projects.
+
+Instead of keeping multiple files such as:
+
+Project_Final.zip
+Project_Final_V2.zip
+Project_Final_V3_Updated.zip
+
+Git maintains all changes in an organized way and allows developers to move back to any previous version.
+
+Benefits of Version Control
+Tracks every code change
+Maintains project history
+Allows collaboration among developers
+Prevents accidental loss of code
+Enables rollback to previous versions
+Supports parallel development
+Why Do Software Companies Use Git?
+
+Almost every software company uses Git because software development involves continuous changes and collaboration among multiple team members.
+
+Git helps organizations:
+
+1. Collaboration
+
+Many developers can work on the same project simultaneously without affecting each other's work.
+
+2. Change Tracking
+
+Every modification is recorded with details such as:
+
+Who made the change
+When the change was made
+What was changed
+3. Backup and Recovery
+
+Git stores project history, making it easy to recover deleted or modified files.
+
+4. Faster Development
+
+Developers can create separate branches for new features and work independently.
+
+5. Release Management
+
+Different versions of software can be maintained and released efficiently.
+
+6. DevOps Integration
+
+Git integrates with:
+
+Jenkins
+GitHub Actions
+GitLab CI/CD
+Docker
+Kubernetes
+Terraform
+
+This makes Git a core component of modern DevOps pipelines.
+
+What Problems Does Git Solve?
+
+Before Git, developers faced many challenges.
+
+Problem 1: Lost Code
+
+Developers often accidentally deleted or overwrote important code.
+
+Git Solution
+
+Git keeps a complete history of all changes and allows restoration of previous versions.
+
+Problem 2: Multiple Developers Editing the Same File
+
+Two developers might edit the same file at the same time.
+
+Git Solution
+
+Git identifies conflicts and helps merge changes safely.
+
+Problem 3: No Backup
+
+If a system crashed, all project files could be lost.
+
+Git Solution
+
+Code can be stored remotely on platforms like GitHub, providing backup and recovery.
+
+Problem 4: Difficulty Tracking Changes
+
+Teams could not easily identify who modified the code.
+
+Git Solution
+
+Every commit stores author information and change details.
+
+Difference Between Git and GitHub
+
+Many beginners think Git and GitHub are the same, but they serve different purposes.
+
+Git	GitHub
+Version Control System	Cloud Hosting Platform
+Installed on local machine	Hosted online
+Tracks code changes	Stores Git repositories
+Works offline	Requires internet for remote operations
+Created by Linus Torvalds	Owned by Microsoft
+Example
+
+Git is like Microsoft Word on your computer.
+
+GitHub is like Google Drive where you store and share files online.
+
+Together they help developers manage and collaborate on software projects.
+
+What is a Repository?
+
+A Repository (Repo) is a storage location where project files and Git history are maintained.
+
+A repository contains:
+
+Source code
+Configuration files
+Documentation
+Commit history
+Branch information
+Types of Repositories
+Local Repository
+
+Stored on the developer's computer.
+
+Remote Repository
+
+Stored on platforms such as GitHub.
+
+Example
+
+Restaurant Website Project
+
+Repository Structure:
+
+Restaurant-Website/
+├── index.html
+├── style.css
+├── script.js
+└── README.md
+
+All files and history are stored inside the repository.
+
+What is a Commit?
+
+A Commit is a snapshot of the project at a specific point in time.
+
+Whenever developers complete a task, they save the changes using a commit.
+
+Example Commit Messages
+Added login page
+Fixed payment bug
+Updated navigation menu
+Added Docker configuration
+Importance of Commits
+Tracks development progress
+Creates project checkpoints
+Allows rollback if issues occur
+Improves team collaboration
+
+A commit acts like a save point in a video game. If something goes wrong, developers can return to an earlier commit.
+
+What is a Branch?
+
+A Branch is an independent line of development within a Git repository.
+
+Branches allow developers to work on new features without affecting the main codebase.
+
+Default Branch
+
+Most repositories use:
+
+main
+
+or
+
+master
+
+as the primary branch.
+
+Example
+
+Main Branch
+|
+|---- Feature Login
+|
+|---- Feature Payment
+|
+|---- Feature Search
+
+Each feature can be developed separately and later combined into the main branch.
+
+Benefits of Branching
+Safe experimentation
+Parallel development
+Easier collaboration
+Better release management
+What is Merge?
+
+Merge is the process of combining changes from one branch into another branch.
+
+After a feature is completed and tested, it is merged into the main branch.
+
+Example
+
+main
+|
+|---- feature-login
+
+Developer completes login functionality.
+
+Then:
+
+feature-login → main
+
+The login feature becomes part of the main application.
+
+Benefits of Merging
+Combines completed work
+Maintains project consistency
+Supports team collaboration
+What is a Pull Request?
+
+A Pull Request (PR) is a request to merge code from one branch into another.
+
+Before merging, team members review the code to ensure quality and correctness.
+
+Pull Request Workflow
+
+Developer Creates Branch
+↓
+Writes Code
+↓
+Creates Pull Request
+↓
+Code Review
+↓
+Testing
+↓
+Approval
+↓
+Merge to Main Branch
+
+Benefits of Pull Requests
+Code quality improvement
+Team collaboration
+Knowledge sharing
+Bug detection before release
+
+Pull Requests are widely used in GitHub-based development workflows.
+
+Conclusion
+
+Git is one of the most important tools in modern software development and DevOps. It helps teams manage source code, track changes, collaborate efficiently, and maintain project history. Concepts such as repositories, commits, branches, merges, and pull requests form the foundation of Git workflows used by organizations worldwide.
+
+Understanding Git fundamentals is essential for anyone pursuing a career in DevOps, Cloud Computing, Software Development, Site Reliability Engineering, or Platform Engineering. Mastering Git improves productivity, collaboration, and software quality while supporting efficient CI/CD and automation practices.

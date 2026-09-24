@@ -1,0 +1,473 @@
+What is AWS Fargate?
+
+AWS Fargate is a serverless compute engine for containers.
+
+It runs your containers without requiring you to create or manage EC2 servers.
+
+Instead of:
+
+Create EC2
+Install Docker
+Patch OS
+Manage Capacity
+Monitor Server
+
+You simply tell AWS:
+
+Run this container
+CPU = 0.5 vCPU
+Memory = 1 GB
+
+AWS handles the infrastructure.
+
+Traditional ECS (EC2 Launch Type)
+
+In the EC2 launch model, ECS manages containers but you manage the servers.
+
+Architecture
+ECS
+ ↓
+EC2
+ ↓
+Docker
+ ↓
+Container
+Your Responsibilities
+Create EC2
+Install Docker
+Patch Linux
+Upgrade Docker
+Scale EC2
+Monitor EC2
+Manage Capacity
+
+Example:
+
+EC2 Instance
+├── Docker
+├── Container A
+├── Container B
+└── Container C
+
+If the EC2 server fails:
+
+All containers fail
+
+You must manage recovery.
+
+ECS with Fargate
+
+With Fargate:
+
+ECS
+ ↓
+Fargate
+ ↓
+Container
+
+AWS creates and manages the underlying infrastructure automatically.
+
+AWS Manages
+Physical Servers
+Operating System
+Docker Runtime
+Capacity Management
+Host Security Patching
+Infrastructure Availability
+You Manage
+Container Image
+CPU
+Memory
+VPC
+Subnet
+Security Groups
+IAM Roles
+Application Code
+EC2 vs Fargate
+Feature	ECS on EC2	ECS Fargate
+Manage EC2	Yes	No
+Install Docker	Yes	No
+Patch OS	Yes	No
+Capacity Planning	Yes	No
+Manage Containers	ECS	ECS
+Pay for EC2	Yes	No
+Pay for Task Resources	No	Yes
+Fast Deployment	Medium	Fast
+How Fargate Works
+
+Suppose you have:
+
+Docker Image
+devops-training-app:v1.0.0
+
+Stored in ECR:
+
+Amazon ECR
+      │
+      ▼
+devops-training-app:v1.0.0
+
+ECS launches:
+
+Task Definition
+      │
+      ▼
+Fargate
+      │
+      ▼
+Container Running
+
+AWS automatically provisions the required compute resources.
+
+CPU in Fargate
+
+Every Fargate task needs CPU.
+
+CPU defines processing power available to the container.
+
+Example:
+
+CPU = 256
+
+Meaning:
+
+0.25 vCPU
+
+Common Values:
+
+CPU	Approximate
+256	0.25 vCPU
+512	0.5 vCPU
+1024	1 vCPU
+2048	2 vCPU
+4096	4 vCPU
+Example
+
+Small training application:
+
+CPU = 256
+
+Production API:
+
+CPU = 1024
+Memory in Fargate
+
+Memory determines how much RAM is available.
+
+Example:
+
+Memory = 512
+
+Meaning:
+
+512 MB RAM
+
+Common values:
+
+Memory	Description
+512 MB	Small apps
+1024 MB	Basic APIs
+2048 MB	Medium workloads
+4096 MB	Larger workloads
+
+Example:
+
+CPU = 256
+Memory = 512
+
+Suitable for:
+
+Training Applications
+Simple APIs
+Demo Projects
+Task Networking
+
+Unlike Docker on a single server, every Fargate task receives its own network interface.
+
+Architecture:
+
+Container
+     │
+     ▼
+Task
+     │
+     ▼
+Network Interface
+
+This provides isolation and security.
+
+What is an ENI?
+
+ENI = Elastic Network Interface
+
+Think of it as:
+
+Virtual Network Card
+
+When ECS launches a Fargate task:
+
+Fargate Task
+       │
+       ▼
+Creates ENI
+       │
+       ▼
+Gets Private IP
+
+Example:
+
+Task A
+IP: 10.0.1.25
+
+Task B
+IP: 10.0.1.31
+
+Each task receives its own network identity.
+
+Why ENI is Important
+
+Because:
+
+Security Groups
+Routing
+Network Policies
+Monitoring
+
+all attach to the ENI.
+
+Architecture:
+
+Fargate Task
+      │
+      ▼
+ENI
+      │
+      ▼
+Private IP
+      │
+      ▼
+Security Group
+Understanding Subnets
+
+Fargate tasks run inside subnets.
+
+Example VPC:
+
+VPC
+10.0.0.0/16
+
+Public Subnets:
+
+10.0.1.0/24
+10.0.2.0/24
+
+Private Subnets:
+
+10.0.11.0/24
+10.0.12.0/24
+
+Architecture:
+
+VPC
+│
+├── Public Subnet
+│
+└── Private Subnet
+Which Subnet Should Containers Use?
+Internet-Facing Application
+ALB
+ │
+ ▼
+Public Subnets
+Backend Containers
+
+Usually:
+
+Private Subnets
+
+Architecture:
+
+Internet
+    │
+    ▼
+ALB
+    │
+    ▼
+Fargate Tasks
+    │
+    ▼
+Database
+
+This is the recommended production design.
+
+Security Groups
+
+Security Groups act as virtual firewalls.
+
+Example:
+
+Allow:
+TCP 80
+TCP 443
+
+Deny:
+Everything Else
+
+Architecture:
+
+Internet
+     │
+     ▼
+Security Group
+     │
+     ▼
+Fargate Task
+
+Example rule:
+
+Inbound:
+Port 80
+Source: ALB Security Group
+
+Best practice:
+
+Do NOT allow:
+0.0.0.0/0
+directly to containers
+
+Use an ALB in front of the tasks.
+
+IAM Roles
+
+Containers often need AWS permissions.
+
+Examples:
+
+Read Secrets Manager
+Write CloudWatch Logs
+Read S3
+
+Never place AWS keys inside containers.
+
+Bad:
+
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+
+Good:
+
+Fargate Task
+      │
+      ▼
+IAM Role
+      │
+      ▼
+AWS Services
+
+This is more secure and follows AWS best practices.
+
+Task Role vs Execution Role
+Execution Role
+
+Used by ECS to:
+
+Pull ECR Images
+Send Logs
+
+Architecture:
+
+ECS
+ │
+ ▼
+Execution Role
+ │
+ ▼
+ECR
+CloudWatch
+Task Role
+
+Used by your application.
+
+Example:
+
+Application
+     │
+     ▼
+Task Role
+     │
+     ▼
+S3
+Secrets Manager
+DynamoDB
+What Fargate Does NOT Manage
+
+Many beginners think Fargate manages everything.
+
+It does not.
+
+You still need:
+
+VPC
+Subnet
+Routing
+Security Groups
+IAM Roles
+Load Balancer
+DNS
+Application Configuration
+Complete Fargate Architecture
+Internet
+    │
+    ▼
+Application Load Balancer
+    │
+    ▼
+Security Group
+    │
+    ▼
+Fargate Task
+    │
+    ▼
+ENI
+    │
+    ▼
+Private IP
+    │
+    ▼
+Private Subnet
+    │
+    ▼
+VPC
+Production Architecture Example
+Amazon ECR
+      │
+      ▼
+ECS Cluster
+      │
+      ▼
+ECS Service
+      │
+      ▼
+Fargate Tasks
+      │
+      ▼
+Private Subnets
+      │
+      ▼
+Security Group
+      │
+      ▼
+Application Load Balancer
+      │
+      ▼
+Internet Users
+Key Takeaways
+Fargate is a serverless container runtime for ECS.
+You do not manage EC2 instances, Docker installation, or OS patching.
+Every Fargate task requires CPU and Memory allocation.
+Each task receives its own Elastic Network Interface (ENI) and private IP.
+Tasks run inside subnets within a VPC.
+Security Groups control network access to the tasks.
+IAM Roles provide secure access to AWS services.
+Fargate manages infrastructure, but you must still design and configure networking, security, and permissions correctly.
+The next step after understanding Fargate is creating an ECS Task Definition that specifies the image, CPU, memory, networking, and IAM co

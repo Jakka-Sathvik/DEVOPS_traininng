@@ -1,0 +1,209 @@
+                            Day 20 – Docker Theory
+1. What is Docker?
+
+Docker is a platform used to build, package, and run applications inside containers.
+
+A Docker container contains the application along with its dependencies, libraries, configuration, and runtime environment. This helps applications run consistently across different environments such as a developer's laptop, testing server, and production server.
+
+Example:
+
+Instead of installing Node.js, libraries, and other dependencies manually on a server, we can create a Docker image containing everything required and run it as a container.
+
+2. Why do DevOps engineers use Docker?
+
+DevOps engineers use Docker because it makes application deployment consistent, portable, and easier to manage.
+
+Major benefits:
+Consistency: The application runs with the same environment across development, testing, and production.
+Portability: Containers can run on different systems that support Docker.
+Fast deployment: Containers start much faster than traditional virtual machines.
+Isolation: Applications and their dependencies are isolated from each other.
+Scalability: Containers can be easily created or removed based on demand.
+Efficient resource usage: Containers generally use fewer resources than virtual machines.
+Easy CI/CD integration: Docker works well with automated build, test, and deployment pipelines.
+
+
+3. What is a Docker image?
+A Docker image is a read-only template used to create Docker containers.
+It contains everything needed to run an application, such as:
+
+Application code
+Runtime
+Libraries
+Dependencies
+Configuration files
+System tools
+
+Images are usually built from a Dockerfile.
+
+Example:
+
+docker pull nginx
+
+
+This downloads the Nginx Docker image from a registry.
+
+
+4. What is a Docker container?
+
+A Docker container is a running instance of a Docker image.
+
+The image provides the application and its environment, while the container is the isolated runtime created from that image.
+
+Example:
+
+docker run nginx
+
+This creates and starts a container using the nginx image.
+
+A simple way to remember:
+
+Image = Blueprint
+Container = Running instance of the blueprint
+
+
+5. What is a Dockerfile?
+
+A Dockerfile is a text file containing instructions for building a Docker image.
+
+It defines things such as:
+
+Base image
+Application files to copy
+Dependencies to install
+Environment variables
+Ports
+Commands to execute
+
+Example Dockerfile:
+
+FROM nginx:latest
+
+COPY index.html /usr/share/nginx/html/
+
+EXPOSE 80
+
+This Dockerfile starts with the Nginx image, copies an HTML file into the web server directory, and documents that the application uses port 80.
+
+
+6. What is Docker Hub?
+
+Docker Hub is a public cloud-based registry provided by Docker where users and organizations can store, share, and download Docker images.
+
+Developers can find many official and community images on Docker Hub.
+
+Examples include images for:
+
+Nginx
+Ubuntu
+Python
+Node.js
+MySQL
+Redis
+
+Example:
+
+docker pull ubuntu
+
+The command downloads the Ubuntu image from Docker Hub by default.
+
+
+7. What is a Docker registry?
+
+A Docker registry is a storage and distribution system for Docker images.
+
+It allows users and organizations to:
+
+Store Docker images
+Upload (push) images
+Download (pull) images
+Share images with other systems
+
+Examples of registries include:
+
+Docker Hub
+Amazon Elastic Container Registry (Amazon ECR)
+Azure Container Registry (ACR)
+Google Artifact Registry
+GitHub Container Registry (GHCR)
+Private/self-hosted registries
+
+Docker Hub is one type of Docker registry.
+
+
+8. Difference between Docker image and Docker container
+Docker Image	Docker Container
+Image is a template/blueprint.	Container is a running instance of an image.
+Usually read-only.	Has a writable container layer.
+Used to create containers.	Runs the application.
+Can be stored in a registry.	Runs on a Docker host.
+Created using docker build.	Created and started using docker run.
+Multiple containers can be created from one image.	Each container has its own runtime state.
+Example
+docker build -t myapp .
+
+This creates an image called myapp.
+
+Then:
+
+docker run myapp
+
+This creates and starts a container from the myapp image.
+
+
+9. What does docker build do?
+
+The docker build command builds a Docker image from a Dockerfile and the specified build context.
+
+Example:
+
+docker build -t myapp:1.0 .
+
+Breakdown:
+docker build → Build an image
+-t myapp:1.0 → Give the image a name and tag
+. → Use the current directory as the build context
+
+During the build, Docker reads the instructions in the Dockerfile and creates the image in layers.
+
+
+10. What does docker run do?
+
+The docker run command creates and starts a new container from a Docker image.
+
+Example:
+
+docker run -d -p 8080:80 nginx
+
+Breakdown:
+docker run → Create and start a container
+-d → Run in detached/background mode
+-p 8080:80 → Map host port 8080 to container port 80
+nginx → Docker image to use
+
+If the specified image is not available locally, Docker can pull it from a configured registry before creating the container.
+
+Quick Revision
+Concept	Meaning
+Docker	Platform for building and running containers
+Docker Image	Read-only template used to create containers
+Docker Container  Running instance of an image
+Dockerfile	Instructions used to build an image
+Docker Hub	Public registry/service for sharing Docker images
+Docker Registry	System for storing and distributing images
+docker build	Builds an image from a Dockerfile
+docker run	Creates and starts a container from an image
+Simple Docker Workflow
+Dockerfile
+    ↓
+docker build
+    ↓
+Docker Image
+    ↓
+docker run
+    ↓
+Docker Container
+
+Key Interview Point
+
+A Docker image is the packaged template, while a Docker container is the running instance created from that image.
